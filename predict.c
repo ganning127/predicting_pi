@@ -8,6 +8,7 @@ float rand_float(float min, float max);
 
 int main(void)
 {
+    int increments[] = {1, 10, 1000, 100000, 1000000, 10000000, 100000000}; // the current one on the midterm latex is with one more zero in element 4 (starting from 1)
     const double MATH_PI = 3.14159265358979323846;
     int darts = 1;
     int decimals = 0;
@@ -29,7 +30,7 @@ int main(void)
             }
             if (wrong > 5)
             {
-                darts *= 10;
+                darts += increments[decimals];
                 // printf("%d\n", darts);
                 break;
             }
