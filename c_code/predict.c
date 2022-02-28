@@ -3,69 +3,61 @@
 #include <math.h>
 #include <time.h>
 
-double get_pi(int darts);
-float rand_float(float min, float max);
+double get_pi(int darts);                   // get a predicted value of pi
+double rand_double(double min, double max); // get a random double between min and max
 
 int main(void)
 {
-    int increments[] = {1, 10, 1000, 100000, 1000000, 10000000, 100000000}; // the current one on the midterm latex is with one more zero in element 4 (starting from 1)
+    int increments[] = {1, 10, 1000, 100000}; // the current one on the midterm latex is with one more zero in element 4 (starting from 1)
     const double MATH_PI = 3.14159265358979323846;
-    int darts = 1;
-    int decimals = 0;
-    int wrong;
-    double pred_pi;
-    srand(time(0));
+    int darts = 1;    // the number of darts thrown
+    int decimals = 0; // number of decimals that we want to predict
+    int wrong;        // number of wrong predictions
+    double pred_pi;   // predicted pi
+    srand(time(0));   // seed the random number generator
 
-    while (decimals <= 5)
+    while (decimals < 4) // loop until we have reached 3 decimals (inclusive), which means 4 digits
     {
-        wrong = 0;
-        for (int i = 0; i < 100; i++)
+        wrong = 0;                    // reset the number of wrong predictions
+        for (int i = 0; i < 100; i++) // loop 100 times in order to test accuracy
         {
-            pred_pi = get_pi(darts);
-            // printf("pred_pi: %f, pi: %f\n", (pred_pi * pow(10, decimals), (MATH_PI * pow(10, decimals))));
-            // printf("pred_pi: %d, pi: %d\n", (int)(pred_pi * pow(10, decimals)), (int)(MATH_PI * pow(10, decimals)));
+            pred_pi = get_pi(darts); // get the predicted pi
             if ((int)(pred_pi * pow(10, decimals)) != (int)(MATH_PI * pow(10, decimals)))
-            {
-                wrong += 1;
-            }
+                wrong += 1; // if the prediction is wrong, increment the number of wrong predictions
             if (wrong > 5)
             {
-                darts += increments[decimals];
-                // printf("%d\n", darts);
-                break;
+                darts += increments[decimals]; // if the number of wrong predictions is greater than 5, increment the number of darts, because at least 95% accuracy was not reached
+                break;                         // break out of the loop and start by resetting the number of wrong predictions
             }
         }
         if (wrong <= 5)
         {
-            printf("Darts: %d || Decimal places: %d || Example PI: %f\n", darts, decimals, pred_pi);
-            decimals += 1;
+            printf("Darts: %d || Decimal places: %d || Example PI: %f\n", darts, decimals, pred_pi); // print out results when we have less than 5 wrong predictions
+            decimals += 1;                                                                           // increment the number of decimals
         }
     }
 
-    puts("");
+    puts(""); // print a new line
 
     return 0;
 }
 
 double get_pi(int darts)
 {
-    int hits = 0;
-
-    for (int i = 0; i < darts; i++)
+    int hits = 0;                   // number of hits within the circle
+    for (int i = 0; i < darts; i++) // loop through all the darts thrown
     {
-        double x = (double)rand_float(-1, 1);
-        double y = (double)rand_float(-1, 1);
+        double x = rand_double(-1, 1); // get a random x value
+        double y = rand_double(-1, 1); // get a random y value
 
-        if (x * x + y * y <= 1)
-        {
-            hits++;
-        }
+        if (x * x + y * y <= 1) // equation of a circle
+            hits++;             // if the dart is within the circle, increment the number of hits
     }
 
-    return 4.0 * (double)hits / (double)darts;
+    return 4.0 * (double)hits / darts; // return the predicted pi
 }
 
-float rand_float(float min, float max)
+double rand_double(double min, double max)
 {
-    return ((max - min) * ((float)rand() / RAND_MAX)) + min;
+    return ((max - min) * ((double)rand() / RAND_MAX)) + min; // return a random double between min and max
 }
