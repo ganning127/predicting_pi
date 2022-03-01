@@ -8,7 +8,7 @@ double rand_double(double min, double max); // get a random double between min a
 
 int main(void)
 {
-    int increments[] = {1, 10, 1000, 100000}; // the current one on the midterm latex is with one more zero in element 4 (starting from 1)
+    int increments[] = {1, 10, 1000, 100000}; // increments for the number of darts
     const double MATH_PI = 3.14159265358979323846;
     int darts = 1;    // the number of darts thrown
     int decimals = 0; // number of decimals that we want to predict
